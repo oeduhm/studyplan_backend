@@ -9,7 +9,9 @@ CREATE TABLE materia (
     codigo integer NOT NULL,
     titulo varchar(60) NOT NULL,
     descricao varchar(500),
-    CONSTRAINT PKMateria PRIMARY KEY(codigo)
+    emailUsuario varchar(20) NOT NULL,
+    CONSTRAINT PKMateria PRIMARY KEY(codigo),
+    CONSTRAINT FK_Materia_Usuario FOREIGN KEY (emailUsuario) REFERENCES usuario(email)
 );
 
 CREATE TABLE anotacao (
