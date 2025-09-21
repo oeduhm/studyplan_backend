@@ -1,17 +1,14 @@
--- Usuários
 INSERT INTO usuario (email, nome, senha) VALUES
 ('joao@email.com', 'João Silva', '123456'),
 ('maria@email.com', 'Maria Souza', '654321');
 
--- Matérias
-INSERT INTO materia (codigo, titulo, descricao) VALUES
-(1, 'Algoritmos', 'Introdução à lógica de programação e estruturas de repetição.'),
-(2, 'Banco de Dados', 'Modelagem e SQL aplicado.'),
-(3, 'Engenharia de Software', 'Conceitos de análise e desenvolvimento.'),
-(4, 'Estruturas de Dados', 'Listas, pilhas, filas e árvores.'),
-(5, 'Programação em C', 'Linguagem C aplicada a problemas práticos.');
+INSERT INTO materia (codigo, titulo, descricao, emailUsuario) VALUES
+(1, 'Algoritmos', 'Introdução à lógica de programação e estruturas de repetição.', 'joao@email.com'),
+(2, 'Banco de Dados', 'Modelagem e SQL aplicado.', 'joao@email.com'),
+(3, 'Engenharia de Software', 'Conceitos de análise e desenvolvimento.', 'joao@email.com'),
+(4, 'Estruturas de Dados', 'Listas, pilhas, filas e árvores.', 'maria@email.com'),
+(5, 'Programação em C', 'Linguagem C aplicada a problemas práticos.', 'maria@email.com');
 
--- Anotações (ligadas a usuários e matérias)
 INSERT INTO anotacao (codigo, dataCriacao, descricao, emailUsuario, codigoMateria) VALUES
 (1, NOW(), 'Resumo sobre estruturas de repetição.', 'joao@email.com', 1),
 (2, NOW(), 'Exemplos de SELECT com JOIN.', 'joao@email.com', 2),
@@ -19,7 +16,6 @@ INSERT INTO anotacao (codigo, dataCriacao, descricao, emailUsuario, codigoMateri
 (4, NOW(), 'Resumo de listas encadeadas.', 'maria@email.com', 4),
 (5, NOW(), 'Comandos básicos em C.', 'maria@email.com', 5);
 
--- Tarefas (ligadas a usuários e matérias)
 INSERT INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, descricao, status, emailUsuario, codigoMateria) VALUES
 (1, NOW(), NULL, 'Lista de exercícios de Algoritmos', 'Fazer exercícios do capítulo 2.', 'A', 'joao@email.com', 1),
 (2, NOW(), NULL, 'Trabalho Banco de Dados', 'Criar diagrama ER.', 'A', 'joao@email.com', 2),
