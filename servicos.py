@@ -53,9 +53,9 @@ class Servico:
         self.cursor.execute("SELECT * FROM usuario WHERE email = ?, senha = ?", (usuario.email, usuario.senha) )
         dados = self.salvar_consulta()
         if dados:
-            return True
+            return usuario
         else:
-            return False
+            return None
 
     # MATERIA
 
