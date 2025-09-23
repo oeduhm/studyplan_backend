@@ -1,4 +1,5 @@
 import sqlite3
+from entidades import Usuario, Anotacao, Tarefa, Materia
 
 class Servico:
 
@@ -16,6 +17,9 @@ class Servico:
     
     def salvar_consulta(self):
         return self.cursor.fetchall()
+
+    def salvar_consulta1(self):
+        return self.cursor.fetchone()
 
     def fechar(self):
         self.cursor.close()
@@ -131,13 +135,18 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
 
     def usuario_1(self, email):
         self.cursor.execute("SELECT * FROM usuario WHERE email = ?", (email,))
-        dados = self.salvar_consulta()
-        return dados
-
-    def usuario_login(self, usuario):
-        self.cursor.execute("SELECT * FROM usuario WHERE email = ? AND senha = ?", (usuario.email, usuario.senha) )
-        dados = self.salvar_consulta()
+        dados = self.salvar_consulta1()
         if dados:
+            usuario = Usuario(dados[0], dados[1], dados[2])
+            return usuario
+        else:
+            return None
+
+    def usuario_login(self, email, senha):
+        self.cursor.execute("SELECT * FROM usuario WHERE email = ? AND senha = ?", (email, senha) )
+        dados = self.salvar_consulta1()
+        if dados:
+            usuario = Usuario(dados[0], dados[1], dados[2])
             return usuario
         else:
             return None
@@ -163,7 +172,7 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
     
     def materia_1(self, codigo):
         self.cursor.execute("SELECT * FROM materia WHERE codigo = ?", (codigo,))
-        dados = self.salvar_consulta()
+        dados = self.salvar_consulta1()
         return dados
 
     # TAREFA
@@ -192,7 +201,7 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
     
     def tarefa_1(self, codigo):
         self.cursor.execute("SELECT * FROM tarefa WHERE codigo = ?", (codigo,))
-        dados = self.salvar_consulta()
+        dados = self.salvar_consulta1()
         return dados
 
     # ANOTACAO
@@ -220,6 +229,5 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
     
     def anotacao_1(self, codigo):
         self.cursor.execute("SELECT * FROM anotacao WHERE codigo = ?", (codigo,))
-        dados = self.salvar_consulta()
+        dados = self.salvar_consulta1()
         return dados
-
