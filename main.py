@@ -6,6 +6,7 @@ s.criar_tabelas()
 s.dados_teste()
 
 # Teste Métodos
+
 lista_usuarios = s.usuarios_listar()
 lista_materias = s.materia_listar()
 lista_tarefas = s.tarefa_listar()
@@ -57,3 +58,19 @@ else:
     print("Nada encontrado.")
 
 print(s.usuarios_listar())
+
+print("Matéria")
+nova_materia = Materia(s.proximo_codigo("materia"),"Materia Teste", "Descrição da Matéria teste", "joao@email.com")
+#s.materia_criar(nova_materia)
+
+materia_alterada = Materia(6, "Materia Teste Alterada", "Nova descrição.", "joao@email.com")
+s.materia_alterar(materia_alterada)
+
+print(s.materia_1(3).titulo)
+
+#s.materia_deletar(s.materia_1(7))
+
+
+
+s.fechar()
+
