@@ -5,6 +5,7 @@ s = Servico("banco.db")
 s.criar_tabelas()
 s.dados_teste()
 
+# Teste Métodos
 lista_usuarios = s.usuarios_listar()
 lista_materias = s.materia_listar()
 lista_tarefas = s.tarefa_listar()
@@ -26,4 +27,33 @@ print("Anotações:")
 for codigo, dataCriacao, descricao, emailUsuario, codigoMateria in lista_anotacoes:
     print(codigo, dataCriacao, descricao, emailUsuario, codigoMateria)
 
-# Testar cada método...
+print("Login:")
+usuario = s.usuario_login("joao@email.com","123456")
+if usuario:
+    print(usuario.email, usuario.senha, usuario.nome)
+else:
+    print("Nada encontrado no banco de dados.")
+
+usuario_alterado = Usuario("joao@email.com.br", "1234567", "Senhor João")
+
+print("Alterar Usuário:")
+s.usuario_alterar(usuario_alterado)
+print(usuario_alterado.nome)
+
+print("Criar Usuário:")
+novo_usuario = Usuario("novo@novo.com.br", "123", "Novo")
+#s.usuario_criar(novo_usuario)
+a1 = s.usuario_1("novo@novo.com.br")
+
+print("Deletar Usuário:")
+#s.usuario_deletar(novo_usuario)
+print(s.usuarios_listar())
+
+print("Busca por Usuario no Banco:")
+b1 = s.usuario_1("joao@email.com")
+if b1:
+    print(b1.nome)
+else:
+    print("Nada encontrado.")
+
+print(s.usuarios_listar())
