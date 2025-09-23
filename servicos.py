@@ -49,6 +49,14 @@ class Servico:
         dados = self.salvar_consulta()
         return dados
 
+    def usuario_login(self, usuario):
+        self.cursor.execute("SELECT * FROM usuario WHERE email = ?, senha = ?", (usuario.email, usuario.senha) )
+        dados = self.salvar_consulta()
+        if dados:
+            return True
+        else:
+            return False
+
     # MATERIA
 
     def materia_c(self, materia):
