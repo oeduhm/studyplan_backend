@@ -2,7 +2,9 @@ import sqlite3
 from entidades import Usuario, Materia, Anotacao, Tarefa  
 
 class Servico:
+
     # BANCO DE DADOS
+
     def __init__(self, nome_do_banco):
         self.nome_do_banco = nome_do_banco
         self.conexao = sqlite3.connect(self.nome_do_banco)
@@ -25,6 +27,7 @@ class Servico:
     # -- DML -- 
 
     # USUARIO
+
     def usuario_c(self, usuario):
         self.cursor.execute("INSERT INTO usuario(email, senha, nome) VALUES (?,?,?)",(usuario.email, usuario.senha, usuario.nome))
         self.salvar()
@@ -48,7 +51,30 @@ class Servico:
 
     # MATERIA
 
+    def materia_c(self, materia):
+        self.cursor.execute("INSERT INTO materia(titulo, descricao, emailUsuario) VALUES (?,?,?)",(materia.titulo, materia.descricao, materia.emailUsuario))
+        self.salvar()
+
+    def materia_a(self, materia):
+        self.cursor.execute("UPDATE materia SET titulo = ?, descricao = ?, emailUsuario = ?",(materia.titulo, materia.descricao, Materia.emailUsuario))
+        self.salvar()
+    
+    def materia_d(self, materia):
+        self.cursor.execute("DELETE materia WHERE codigo = ?", (materia.codigo,))
+        self.salvar()
+
+    def materia_listar(self):
+        self.cursor.execute("SELECT * FROM materia")
+        dados = self.salvar_consulta()
+        return dados
+    
+    def materia_1(self, codigo):
+        self.cursor.execute("SELECT * FROM materia WHERE codigo = ?", (codigo,))
+        dados = self.salvar_consulta()
+        return dados
+
     # TAREFA
+
     def tarefa_c(self, tarefa):
         self.cursor.execute("INSERT INTO tarefa(titulo, descricao, status, dataCriacao, codigoMateria, emailUsuario) VALUES (?,?,?,?,?,?)",(tarefa.titulo, tarefa.descricao, tarefa.status, tarefa.codigoMateria, tarefa.emailUsuario))
         self.salvar()
@@ -73,4 +99,24 @@ class Servico:
 
     # ANOTACAO
 
+    def anotacao_c(self, anotacao):
+        self.cursor.execute("INSERT INTO anotacao(dataCriacao, descricao, codigoMateria, emailUsuario) VALUES (?,?,?,?,?,?)",(anotacao.dataCriacao, anotacao.descricao, anotacao.codigoMateria, anotacao.emailUsuario))
+        self.salvar()
 
+    def anotacao_a(self, anotacao):
+        self.cursor.execute("UPDATE anotacao SET dataCriacao = ?, descricao = ?, codigoMateria = ?, emailUsuario = ?",(anotacao.dataCriacao, anotacao.descricao, anotacao.codigoMateria, anotacao.emailUsuario))
+        self.salvar()
+    
+    def anotacao_d(self, anotacao):
+        self.cursor.execute("DELETE anotacao WHERE codigo = ?", (anotacao.codigo,))
+        self.salvar()
+
+    def anotacao_listar(self):
+        self.cursor.execute("SELECT * FROM anotacao")
+        dados = self.salvar_consulta()
+        return dados
+    
+    def anotacao_1(self, codigo):
+        self.cursor.execute("SELECT * FROM anotacao WHERE codigo = ?", (codigo,))
+        dados = self.salvar_consulta()
+        return dados
