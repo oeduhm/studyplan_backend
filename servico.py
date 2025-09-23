@@ -173,7 +173,11 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
     def materia_1(self, codigo):
         self.cursor.execute("SELECT * FROM materia WHERE codigo = ?", (codigo,))
         dados = self.salvar_consulta1()
-        return dados
+        if dados:
+            materia = Materia(dados[0], dados[1], dados[2], dados[3])
+            return materia
+        else:
+            return None
 
     # TAREFA
 
