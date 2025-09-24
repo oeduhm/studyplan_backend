@@ -70,6 +70,14 @@ print(s.materia_1(3).titulo)
 
 #s.materia_deletar(s.materia_1(7))
 
+tarefa1 = Tarefa(s.proximo_codigo("tarefa"), "Nome da Tarefa", "Desc", "A", None, None , 6 ,"joao@email.com")
+# s.tarefa_criar(tarefa1)
+
+tarefa1_alterada = Tarefa(9, "Nome da Tarefa Alterado", "Descricao alterada", "A", None, None, 6, "joao@email.com")
+s.tarefa_alterar(tarefa1_alterada)
+
+# s.tarefa_deletar(tarefa1_alterada)
+print(s.tarefa_1(10))
 
 
 s.fechar()
