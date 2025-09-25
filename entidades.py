@@ -71,12 +71,13 @@ class Materia:
         self.__emailUsuario = valor
 
 class Anotacao:
-    def __init__(self, codigo, dataCriacao, descricao, emailUsuario, codigoMateria):
+    def __init__(self, codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa):
         self.__codigo = codigo
         self.__dataCriacao = dataCriacao
         self.__descricao = descricao
         self.__emailUsuario = emailUsuario
         self.__codigoMateria = codigoMateria
+        self.__codigoTarefa = codigoTarefa
 
     @property
     def codigo(self):
@@ -125,6 +126,14 @@ class Anotacao:
     @codigoMateria.setter
     def codigoMateria(self, valor):
         self.__codigoMateria = valor
+
+    @property
+    def codigoTarefa(self):
+        return self.__codigoTarefa
+    
+    @codigoTarefa.setter
+    def codigoTarefa(self, valor):
+        self.__codigoTarefa = valor
 
 class Tarefa:
     def __init__(self, codigo, titulo, descricao, status, dataCriacao, dataFinalizacao, codigoMateria, emailUsuario):
