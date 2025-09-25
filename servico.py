@@ -57,10 +57,12 @@ CREATE TABLE IF NOT EXISTS anotacao (
     dataCriacao TEXT DEFAULT CURRENT_TIMESTAMP,
     descricao TEXT,
     emailUsuario TEXT NOT NULL,
-    codigoMateria INTEGER NOT NULL,
+    codigoMateria INTEGER,
+    codigoTarefa INTEGER,
     CONSTRAINT PKAnotacao PRIMARY KEY(codigo),
     CONSTRAINT FK_Anotacao_Usuario FOREIGN KEY (emailUsuario) REFERENCES usuario(email),
     CONSTRAINT FK_Anotacao_Materia FOREIGN KEY (codigoMateria) REFERENCES materia(codigo)
+    CONSTRAINT FK_Anotacao_Tarefa FOREIGN KEY (codigoTarefa) REFERENCES tarefa(codigo)
 );
 
 CREATE TABLE IF NOT EXISTS tarefa (
@@ -94,13 +96,6 @@ INSERT OR IGNORE INTO materia (codigo, titulo, descricao, emailUsuario) VALUES
 (4, 'Estruturas de Dados', 'Listas, pilhas, filas e árvores.', 'maria@email.com'),
 (5, 'Programação em C', 'Linguagem C aplicada a problemas práticos.', 'maria@email.com');
 
-INSERT OR IGNORE INTO anotacao (codigo, dataCriacao, descricao, emailUsuario, codigoMateria) VALUES
-(1, CURRENT_TIMESTAMP, 'Resumo sobre estruturas de repetição.', 'joao@email.com', 1),
-(2, CURRENT_TIMESTAMP, 'Exemplos de SELECT com JOIN.', 'joao@email.com', 2),
-(3, CURRENT_TIMESTAMP, 'Modelo cascata vs ágil.', 'joao@email.com', 3),
-(4, CURRENT_TIMESTAMP, 'Resumo de listas encadeadas.', 'maria@email.com', 4),
-(5, CURRENT_TIMESTAMP, 'Comandos básicos em C.', 'maria@email.com', 5);
-
 INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, descricao, status, emailUsuario, codigoMateria) VALUES
 (1, CURRENT_TIMESTAMP, NULL, 'Lista de exercícios de Algoritmos', 'Fazer exercícios do capítulo 2.', 'A', 'joao@email.com', 1),
 (2, CURRENT_TIMESTAMP, NULL, 'Trabalho Banco de Dados', 'Criar diagrama ER.', 'A', 'joao@email.com', 2),
@@ -110,9 +105,23 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
 (6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Exercícios Banco de Dados', 'Queries de junção.', 'F', 'maria@email.com', 2),
 (7, CURRENT_TIMESTAMP, NULL, 'Resumo Estruturas de Dados', 'Preparar para prova.', 'A', 'joao@email.com', 4),
 (8, CURRENT_TIMESTAMP, NULL, 'Projeto final C', 'Desenvolver mini sistema em C.', 'A', 'maria@email.com', 5);
+
+INSERT OR IGNORE INTO anotacao 
+(codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa) 
+VALUES
+(1, CURRENT_TIMESTAMP, 'Resumo sobre estruturas de repetição.', 'joao@email.com', 1, NULL), -- OK (somente matéria)
+(2, CURRENT_TIMESTAMP, 'Exemplos de SELECT com JOIN.', 'joao@email.com', NULL, 6),         -- OK (somente tarefa)
+(3, CURRENT_TIMESTAMP, 'Modelo cascata vs ágil.', 'joao@email.com', NULL, 3),
+(4, CURRENT_TIMESTAMP, 'Resumo de listas encadeadas.', 'maria@email.com', NULL, 4),
+(5, CURRENT_TIMESTAMP, 'Comandos básicos em C.', 'maria@email.com', 5, NULL),
+(6, CURRENT_TIMESTAMP, 'Checklist final do projeto C.', 'maria@email.com', NULL, 8),
+(7, CURRENT_TIMESTAMP, 'Revisar teoria de filas e pilhas.', 'joao@email.com', NULL, 7),
+(8, CURRENT_TIMESTAMP, 'Dúvidas sobre SQL avançado.', 'maria@email.com', 2, NULL);
+
 """)
         self.salvar()
     
+
     # USUARIO
 
     def usuario_criar(self, usuario):
@@ -210,15 +219,27 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
     # ANOTACAO
 
     def anotacao_criar(self, anotacao):
+        if (anotacao.codigoMateria is not None and anotacao.codigoTarefa is not None) or \
+        (anotacao.codigoMateria is None and anotacao.codigoTarefa is None):
+            raise ValueError("A anotação deve estar vinculada a uma matéria OU a uma tarefa, nunca ambas ou nenhuma.")
+
         self.cursor.execute(
-        "INSERT INTO anotacao(codigo, dataCriacao, descricao, emailUsuario, codigoMateria) "
-        "VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?)",
-        (anotacao.codigo, anotacao.descricao, anotacao.emailUsuario, anotacao.codigoMateria)
+        """
+        INSERT INTO anotacao (codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa)
+        VALUES (?, CURRENT_TIMESTAMP, ?, ?, ?, ?)
+        """,
+        (
+            anotacao.codigo,
+            anotacao.descricao,
+            anotacao.emailUsuario,
+            anotacao.codigoMateria,
+            anotacao.codigoTarefa
+        )
     )
         self.salvar()
 
     def anotacao_alterar(self, anotacao):
-        self.cursor.execute("UPDATE anotacao SET dataCriacao = CURRENT_TIMESTAMP, descricao = ?, codigoMateria = ?, emailUsuario = ? WHERE codigo = ?",(anotacao.descricao, anotacao.codigoMateria, anotacao.emailUsuario, anotacao.codigo))
+        self.cursor.execute("UPDATE anotacao SET dataCriacao = CURRENT_TIMESTAMP, descricao = ?, codigoMateria = ?, codigoTarefa = ?, emailUsuario = ? WHERE codigo = ?",(anotacao.descricao, anotacao.codigoMateria, anotacao.codigoTarefa, anotacao.emailUsuario, anotacao.codigo))
         self.salvar()
     
     def anotacao_deletar(self, anotacao):
