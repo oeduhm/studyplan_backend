@@ -11,7 +11,6 @@ class Servico:
         self.conexao.execute("PRAGMA foreign_keys = ON;")
         self.cursor = self.conexao.cursor()
 
-
     def salvar(self):
         self.conexao.commit()
     
@@ -219,7 +218,7 @@ INSERT OR IGNORE INTO tarefa (codigo, dataCriacao, dataFinalizacao, titulo, desc
         self.salvar()
 
     def anotacao_alterar(self, anotacao):
-        self.cursor.execute("UPDATE anotacao SET dataCriacao = ?, descricao = ?, codigoMateria = ?, emailUsuario = ? WHERE codigo = ?",(anotacao.dataCriacao, anotacao.descricao, anotacao.codigoMateria, anotacao.emailUsuario, anotacao.codigo))
+        self.cursor.execute("UPDATE anotacao SET dataCriacao = CURRENT_TIMESTAMP, descricao = ?, codigoMateria = ?, emailUsuario = ? WHERE codigo = ?",(anotacao.descricao, anotacao.codigoMateria, anotacao.emailUsuario, anotacao.codigo))
         self.salvar()
     
     def anotacao_deletar(self, anotacao):
