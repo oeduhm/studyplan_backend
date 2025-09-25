@@ -79,6 +79,13 @@ s.tarefa_alterar(tarefa1_alterada)
 # s.tarefa_deletar(tarefa1_alterada)
 print(s.tarefa_1(10))
 
+anotacao1 = Anotacao(s.proximo_codigo("anotacao"), None, "Descrição da anotação.", "joao@email.com", 5)
+#s.anotacao_criar(anotacao1)
+
+s.anotacao_alterar(Anotacao(7,None, "desc alterada", "joao@email.com", 1))
+
+# s.anotacao_deletar(anotacao1)
+
 
 s.fechar()
 
