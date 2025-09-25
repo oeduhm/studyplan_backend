@@ -25,8 +25,8 @@ for codigo, dataCriacao, dataFinalizacao, titulo, descricao, status, emailUsuari
     print(codigo, dataCriacao, dataFinalizacao, titulo, descricao, status, emailUsuario, codigoMateria)
 
 print("Anotações:")
-for codigo, dataCriacao, descricao, emailUsuario, codigoMateria in lista_anotacoes:
-    print(codigo, dataCriacao, descricao, emailUsuario, codigoMateria)
+for codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa in lista_anotacoes:
+    print(codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa)
 
 print("Login:")
 usuario = s.usuario_login("joao@email.com","123456")
@@ -79,10 +79,10 @@ s.tarefa_alterar(tarefa1_alterada)
 # s.tarefa_deletar(tarefa1_alterada)
 print(s.tarefa_1(10))
 
-anotacao1 = Anotacao(s.proximo_codigo("anotacao"), None, "Descrição da anotação.", "joao@email.com", 5)
-#s.anotacao_criar(anotacao1)
+anotacao1 = Anotacao(s.proximo_codigo("anotacao"), None, "Descrição da anotação.", "joao@email.com", 5, None)
+s.anotacao_criar(anotacao1)
 
-s.anotacao_alterar(Anotacao(7,None, "desc alterada", "joao@email.com", 1))
+s.anotacao_alterar(Anotacao(7,None, "desc alterada", "joao@email.com", 1, None))
 
 # s.anotacao_deletar(anotacao1)
 
