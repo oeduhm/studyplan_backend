@@ -1,7 +1,7 @@
 from entidades import Usuario, Anotacao, Tarefa, Materia
 from servico import Servico
 
-s = Servico("banco.db")
+s = Servico(host="localhost", dbname="meubanco", user="meuuser", password="minhasenha", port=5432)
 s.criar_tabelas()
 s.dados_teste()
 
@@ -14,7 +14,7 @@ lista_anotacoes = s.anotacao_listar()
 
 print("Usuários:")
 for email, senha, nome in lista_usuarios:
-    print(nome, email, senha)
+    print(email, senha, nome)
 
 print("Matérias:")
 for codigo, titulo, descricao, emailUsuario in lista_materias:
