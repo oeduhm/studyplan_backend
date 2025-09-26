@@ -10,10 +10,6 @@ class Usuario:
     def email(self):
         return self.__email
 
-    @email.setter
-    def email(self, valor):
-        self.__email = valor
-
     @property
     def nome(self):
         return self.__nome
@@ -94,14 +90,6 @@ class Anotacao:
     @dataCriacao.setter
     def dataCriacao(self, valor):
         self.__dataCriacao = valor
-
-    @property
-    def titulo(self):
-        return self.__titulo
-
-    @titulo.setter
-    def titulo(self, valor):
-        self.__titulo = valor
 
     @property
     def descricao(self):
