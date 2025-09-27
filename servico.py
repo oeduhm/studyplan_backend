@@ -140,21 +140,21 @@ class Servico:
         self.salvar()
 
     # USUARIO
-    def usuario_criar(self, usuario: Usuario):
+    def usuario_criar(self, usuario):
         self.cursor.execute(
             "INSERT INTO usuario(email, senha, nome) VALUES (%s, %s, %s) ON CONFLICT (email) DO NOTHING",
             (usuario.email, usuario.senha, usuario.nome)
         )
         self.salvar()
 
-    def usuario_alterar(self, usuario: Usuario):
+    def usuario_alterar(self, usuario):
         self.cursor.execute(
             "UPDATE usuario SET senha = %s, nome = %s WHERE email = %s",
             (usuario.senha, usuario.nome, usuario.email)
         )
         self.salvar()
     
-    def usuario_deletar(self, usuario: Usuario):
+    def usuario_deletar(self, usuario):
         self.cursor.execute("DELETE FROM usuario WHERE email = %s", (usuario.email,))
         self.salvar()
 
@@ -177,21 +177,21 @@ class Servico:
         return None
 
     # MATERIA
-    def materia_criar(self, materia: Materia):
+    def materia_criar(self, materia):
         self.cursor.execute(
             "INSERT INTO materia(codigo, titulo, descricao, emailUsuario) VALUES (%s, %s, %s, %s)",
             (materia.codigo, materia.titulo, materia.descricao, materia.emailUsuario)
         )
         self.salvar()
 
-    def materia_alterar(self, materia: Materia):
+    def materia_alterar(self, materia):
         self.cursor.execute(
             "UPDATE materia SET titulo = %s, descricao = %s, emailUsuario = %s WHERE codigo = %s",
             (materia.titulo, materia.descricao, materia.emailUsuario, materia.codigo)
         )
         self.salvar()
     
-    def materia_deletar(self, materia: Materia):
+    def materia_deletar(self, materia):
         self.cursor.execute("DELETE FROM materia WHERE codigo = %s AND emailUsuario = %s", (materia.codigo,materia.emailUsuario))
         self.salvar()
 
@@ -207,7 +207,7 @@ class Servico:
         return None
 
     # TAREFA
-    def tarefa_criar(self, tarefa: Tarefa):
+    def tarefa_criar(self, tarefa):
         self.cursor.execute(
             """
             INSERT INTO tarefa(codigo, titulo, descricao, status, dataCriacao, emailUsuario, codigoMateria)
@@ -217,7 +217,7 @@ class Servico:
         )
         self.salvar()
 
-    def tarefa_alterar(self, tarefa: Tarefa):
+    def tarefa_alterar(self, tarefa):
         self.cursor.execute(
             """
             UPDATE tarefa
@@ -228,7 +228,7 @@ class Servico:
         )
         self.salvar()
     
-    def tarefa_deletar(self, tarefa: Tarefa):
+    def tarefa_deletar(self, tarefa):
         self.cursor.execute("DELETE FROM tarefa WHERE codigo = %s AND emailUsuario = %s", (tarefa.codigo,tarefa.emailUsuario))
         self.salvar()
 
