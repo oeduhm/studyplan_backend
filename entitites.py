@@ -1,5 +1,3 @@
-# ENTIDADES
-
 class Usuario:
     def __init__(self, email, senha, nome):
         self.__email = email
@@ -25,7 +23,6 @@ class Usuario:
     @senha.setter
     def senha(self, valor):
         self.__senha = valor
-
 
 class Materia:
     def __init__(self, codigo, titulo, descricao, emailUsuario):
