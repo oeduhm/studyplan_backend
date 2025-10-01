@@ -1,16 +1,17 @@
-from entidades import Usuario, Anotacao, Tarefa, Materia
-from servico import Servico
+from entities import Usuario, Anotacao, Tarefa, Materia
+from services import Servico
+from bd import Bd
 
-s = Servico(host="localhost", dbname="meubanco", user="meuuser", password="minhasenha", port=5432)
-s.criar_tabelas()
-s.dados_teste()
+bd = Bd(host="localhost", dbname="meubanco", user="meuuser", password="minhasenha", port=5432)
+bd.criar_tabelas()
+bd.dados_teste()
+servico = Servico(bd)
 
 # Teste Métodos
-
-lista_usuarios = s.usuarios_listar()
-lista_materias = s.materia_listar()
-lista_tarefas = s.tarefa_listar()
-lista_anotacoes = s.anotacao_listar()
+lista_usuarios = servico.usuarios_listar()
+lista_materias = servico.materia_listar()
+lista_tarefas = servico.tarefa_listar()
+lista_anotacoes = servico.anotacao_listar()
 
 print("Usuários:")
 for email, senha, nome in lista_usuarios:
@@ -29,7 +30,7 @@ for codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa in
     print(codigo, dataCriacao, descricao, emailUsuario, codigoMateria, codigoTarefa)
 
 print("Login:")
-usuario = s.usuario_login("joao@email.com","123456")
+usuario = servico.usuario_login("joao@email.com","123456")
 if usuario:
     print(usuario.email, usuario.senha, usuario.nome)
 else:
@@ -38,54 +39,53 @@ else:
 usuario_alterado = Usuario("joao@email.com.br", "1234567", "Senhor João")
 
 print("Alterar Usuário:")
-s.usuario_alterar(usuario_alterado)
+servico.usuario_alterar(usuario_alterado)
 print(usuario_alterado.nome)
 
 print("Criar Usuário:")
 novo_usuario = Usuario("novo@novo.com.br", "123", "Novo")
 #s.usuario_criar(novo_usuario)
-a1 = s.usuario_1("novo@novo.com.br")
+a1 = servico.usuario_1("novo@novo.com.br")
 
 print("Deletar Usuário:")
 #s.usuario_deletar(novo_usuario)
-print(s.usuarios_listar())
+print(servico.usuarios_listar())
 
 print("Busca por Usuario no Banco:")
-b1 = s.usuario_1("joao@email.com")
+b1 = servico.usuario_1("joao@email.com")
 if b1:
     print(b1.nome)
 else:
     print("Nada encontrado.")
 
-print(s.usuarios_listar())
+print(servico.usuarios_listar())
 
 print("Matéria")
-nova_materia = Materia(s.proximo_codigo("materia"),"Materia Teste", "Descrição da Matéria teste", "joao@email.com")
+nova_materia = Materia(servico.proximo_codigo("materia"),"Materia Teste", "Descrição da Matéria teste", "joao@email.com")
 #s.materia_criar(nova_materia)
 
 materia_alterada = Materia(6, "Materia Teste Alterada", "Nova descrição.", "joao@email.com")
-s.materia_alterar(materia_alterada)
+servico.materia_alterar(materia_alterada)
 
-print(s.materia_1(3).titulo)
+print(servico.materia_1(3).titulo)
 
 #s.materia_deletar(s.materia_1(7))
 
-tarefa1 = Tarefa(s.proximo_codigo("tarefa"), "Nome da Tarefa", "Desc", "A", None, None , 6 ,"joao@email.com")
+tarefa1 = Tarefa(servico.proximo_codigo("tarefa"), "Nome da Tarefa", "Desc", "A", None, None , 6 ,"joao@email.com")
 # s.tarefa_criar(tarefa1)
 
 tarefa1_alterada = Tarefa(9, "Nome da Tarefa Alterado", "Descricao alterada", "A", None, None, 6, "joao@email.com")
-s.tarefa_alterar(tarefa1_alterada)
+servico.tarefa_alterar(tarefa1_alterada)
 
 # s.tarefa_deletar(tarefa1_alterada)
-print(s.tarefa_1(10))
+print(servico.tarefa_1(10))
 
-anotacao1 = Anotacao(s.proximo_codigo("anotacao"), None, "Descrição da anotação.", "joao@email.com", 5, None)
-s.anotacao_criar(anotacao1)
+anotacao1 = Anotacao(servico.proximo_codigo("anotacao"), None, "Descrição da anotação.", "joao@email.com", 5, None)
+servico.anotacao_criar(anotacao1)
 
-s.anotacao_alterar(Anotacao(7,None, "desc alterada", "joao@email.com", 1, None))
+servico.anotacao_alterar(Anotacao(7,None, "desc alterada", "joao@email.com", 1, None))
 
 # s.anotacao_deletar(anotacao1)
 
-
-s.fechar()
+servico.bd.fechar()
 
